@@ -1,5 +1,13 @@
 const Joi = require('joi');
 
+const createCategory = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+    img: Joi.string().allow(null, ''),
+  }),
+};
+
 const getCategories = {
   query: Joi.object().keys({
     sortBy: Joi.string(),
@@ -8,4 +16,4 @@ const getCategories = {
   }),
 };
 
-module.exports = { getCategories };
+module.exports = { getCategories, createCategory };
