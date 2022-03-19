@@ -1,12 +1,17 @@
 const express = require('express');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const categoryValidation = require('../../validations/category.validation');
 const categoryController = require('../../controllers/category.controller');
 
 const router = express.Router();
 
-router.route('/getCategories').get(validate(categoryValidation.getCategories), categoryController.getCategories);
-router.route('/createCategory').post(validate(categoryValidation.createCategory), categoryController.createCategory);
+router
+  .route('/getCategories')
+  .get(auth('getCategory'), validate(categoryValidation.getCategories), categoryController.getCategories);
+router
+  .route('/createCategory')
+  .post(auth('addCategory'), validate(categoryValidation.createCategory), categoryController.createCategory);
 
 module.exports = router;
 
@@ -63,6 +68,10 @@ module.exports = router;
  *                 totalResults:
  *                   type: integer
  *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */
 
 /**
@@ -102,5 +111,8 @@ module.exports = router;
  *           application/json:
  *             schema:
  *                $ref: '#/components/schemas/Category'
-
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */

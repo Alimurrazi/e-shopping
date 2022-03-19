@@ -5,7 +5,10 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 
 const getCategories = catchAsync(async (req, res) => {
-  res.send('hello world');
+  const filter = pick(req.query, []);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await categoryService.queryCategories(filter, options);
+  res.send(result);
 });
 
 const createCategory = catchAsync(async (req, res) => {

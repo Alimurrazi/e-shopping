@@ -19,6 +19,23 @@ components:
         name: fake name
         role: user
 
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        img:
+          type: string
+      example:
+        id: 9b5603cc-b21b-4312-9a2e-2d463b77f9f5
+        name: Electronic Devices
+        description: Smartphones, Feature Phone, Tablets, Laptops, Desktops, Gaming Consoles, Cameras, Security Cameras
+        img: https://res.cloudinary.com/dgpqrbgiy/image/upload/v1647689336/pexels-mikhail-nilov-6969678_h21p1g.jpg
+
     Token:
       type: object
       properties:
