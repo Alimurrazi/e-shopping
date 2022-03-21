@@ -10,6 +10,10 @@ router
   .route('/getCategories')
   .get(auth('getCategory'), validate(categoryValidation.getCategories), categoryController.getCategories);
 router
+  .route('/getCategory')
+  .get(auth('getCategory'), validate(categoryValidation.getCategory), categoryController.getCategories);
+
+router
   .route('/createCategory')
   .post(auth('addCategory'), validate(categoryValidation.createCategory), categoryController.createCategory);
 router
@@ -71,6 +75,32 @@ module.exports = router;
  *                 totalResults:
  *                   type: integer
  *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /category/getCategory:
+ *   get:
+ *     summary: Get Specific category
+ *     description: people retrieve specific category.
+ *     tags: [Category]
+ *     parameters:
+ *       - in: query
+ *         name: categoryId
+ *         schema:
+ *           type: string
+ *         description: Category Id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Category'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":

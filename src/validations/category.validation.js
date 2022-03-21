@@ -28,4 +28,15 @@ const getCategories = {
   }),
 };
 
-module.exports = { getCategories, createCategory, updateCategory };
+const getCategory = {
+  query: Joi.object().keys({
+    categoryId: Joi.required().custom(objectId),
+  }),
+};
+
+module.exports = {
+  getCategories,
+  getCategory,
+  createCategory,
+  updateCategory,
+};
