@@ -12,6 +12,9 @@ router
 router
   .route('/createCategory')
   .post(auth('addCategory'), validate(categoryValidation.createCategory), categoryController.createCategory);
+router
+  .route('/updateCategory/:categoryId')
+  .patch(auth('updateCategory'), validate(categoryValidation.updateCategory), categoryController.updateCategory);
 
 module.exports = router;
 
@@ -107,6 +110,62 @@ module.exports = router;
  *     responses:
  *       "201":
  *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Category'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /category/updateCategory:
+ *   patch:
+ *     summary: update category
+ *     description: only admin can update category.
+ *     tags: [Category]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: Category Id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Category Id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             optional:
+ *               - img
+ *               - name
+ *               - description
+ *             properties:
+ *               id:
+ *                type: string
+ *                description: which category will be updated
+ *               name:
+ *                 type: string
+ *                 description: must be unique
+ *               description:
+ *                 type: string
+ *               img:
+ *                 type: string
+ *             example:
+ *               name: fake category
+ *               description: lorep ipsum
+ *               img: ''
+ *     responses:
+ *       "200":
+ *         description: Updated
  *         content:
  *           application/json:
  *             schema:
