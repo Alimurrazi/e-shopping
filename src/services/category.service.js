@@ -25,9 +25,19 @@ const updateCategoryById = async (categoryId, updateBody) => {
   return category;
 };
 
+const deleteCategoryById = async (categoryId) => {
+  const category = await getCategoryById(categoryId);
+  if (!category) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
+  }
+  await category.remove();
+  return category;
+};
+
 module.exports = {
   createCategory,
   queryCategories,
   updateCategoryById,
   getCategoryById,
+  deleteCategoryById,
 };

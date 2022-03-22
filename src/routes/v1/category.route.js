@@ -15,10 +15,13 @@ router
 
 router
   .route('/createCategory')
-  .post(auth('addCategory'), validate(categoryValidation.createCategory), categoryController.createCategory);
+  .post(auth('manageCategory'), validate(categoryValidation.createCategory), categoryController.createCategory);
 router
   .route('/updateCategory/:categoryId')
-  .patch(auth('updateCategory'), validate(categoryValidation.updateCategory), categoryController.updateCategory);
+  .patch(auth('manageCategory'), validate(categoryValidation.updateCategory), categoryController.updateCategory);
+router
+  .route('/deleteCategory/:categoryId')
+  .delete(auth('manageCategory'), validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
 
 module.exports = router;
 
@@ -200,6 +203,28 @@ module.exports = router;
  *           application/json:
  *             schema:
  *                $ref: '#/components/schemas/Category'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /category/deleteCategory:
+ *   delete:
+ *     summary: Delete Specific category
+ *     description: Delete specific category by categoryId.
+ *     tags: [Category]
+ *     parameters:
+ *       - in: query
+ *         name: categoryId
+ *         schema:
+ *           type: string
+ *         description: Category Id
+ *     responses:
+ *       "200":
+ *         description: OK
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
