@@ -16,13 +16,11 @@ const queryCategories = async (filter, options) => {
 const getCategoryById = async (id) => Category.findById(id);
 
 const updateCategoryById = async (categoryId, updateBody) => {
-  const category = await getCategoryById(categoryId);
-  if (!category) {
+  const response = await Category.updateOne({ _id: categoryId }, updateBody);
+  if (!response.nModified) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
   }
-  Object.assign(category, updateBody);
-  await category.save();
-  return category;
+  return response;
 };
 
 const deleteCategoryById = async (categoryId) => {

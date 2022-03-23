@@ -26,7 +26,7 @@ const createCategory = catchAsync(async (req, res) => {
 
 const updateCategory = catchAsync(async (req, res) => {
   const category = await categoryService.updateCategoryById(req.params.categoryId, req.body);
-  res.status.send(category);
+  res.status(httpStatus.OK).send(category);
 });
 
 const deleteCategory = catchAsync(async (req, res) => {
