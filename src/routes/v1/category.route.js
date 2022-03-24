@@ -6,21 +6,18 @@ const categoryController = require('../../controllers/category.controller');
 
 const router = express.Router();
 
+router.route('/').get(auth('getCategory'), validate(categoryValidation.getCategories), categoryController.getCategories);
 router
-  .route('/getCategories')
-  .get(auth('getCategory'), validate(categoryValidation.getCategories), categoryController.getCategories);
+  .route('/:categoryId')
+  .get(auth('getCategory'), validate(categoryValidation.getCategory), categoryController.getCategoryById);
 router
-  .route('/getCategory')
-  .get(auth('getCategory'), validate(categoryValidation.getCategory), categoryController.getCategories);
-
-router
-  .route('/createCategory')
+  .route('/')
   .post(auth('manageCategory'), validate(categoryValidation.createCategory), categoryController.createCategory);
 router
-  .route('/updateCategory/:categoryId')
+  .route('/:categoryId')
   .patch(auth('manageCategory'), validate(categoryValidation.updateCategory), categoryController.updateCategory);
 router
-  .route('/deleteCategory/:categoryId')
+  .route('/:categoryId')
   .delete(auth('manageCategory'), validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
 
 module.exports = router;
