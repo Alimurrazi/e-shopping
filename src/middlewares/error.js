@@ -3,6 +3,7 @@ const httpStatus = require('http-status');
 const config = require('../config/config');
 const logger = require('../config/logger');
 const ApiError = require('../utils/ApiError');
+const CommonResponse = require('../utils/CommonResponse');
 
 const errorConverter = (err, req, res, next) => {
   let error = err;
@@ -25,11 +26,13 @@ const errorHandler = (err, req, res, next) => {
 
   res.locals.errorMessage = err.message;
 
-  const response = {
-    code: statusCode,
-    message,
-    ...(config.env === 'development' && { stack: err.stack }),
-  };
+  // const response = {
+  //   code: statusCode,
+  //   message,
+  //   ...(config.env === 'development' && { stack: err.stack }),
+  // };
+  console.log(new CommonResponse(statusCode, false, [], err.stack));
+  const response = new CommonResponse(statusCode, false, [], err.stack);
 
   if (config.env === 'development') {
     logger.error(err);

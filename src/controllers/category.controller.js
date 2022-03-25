@@ -16,7 +16,7 @@ const getCategoryById = catchAsync(async (req, res) => {
   if (!category) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
   }
-  res.status.send(category);
+  res.status(httpStatus.OK).send(category);
 });
 
 const createCategory = catchAsync(async (req, res) => {
@@ -25,13 +25,13 @@ const createCategory = catchAsync(async (req, res) => {
 });
 
 const updateCategory = catchAsync(async (req, res) => {
-  const category = await categoryService.updateCategoryById(req.params.categoryId, req.body);
-  res.status(httpStatus.OK).send(category);
+  await categoryService.updateCategoryById(req.params.categoryId, req.body);
+  res.status(httpStatus.OK).send({});
 });
 
 const deleteCategory = catchAsync(async (req, res) => {
   await categoryService.deleteCategoryById(req.params.categoryId);
-  res.status(httpStatus.OK).send([]);
+  res.status(httpStatus.OK).send({});
 });
 
 module.exports = {

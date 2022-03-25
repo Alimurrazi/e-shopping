@@ -35,7 +35,7 @@ const getCategories = {
 };
 
 const getCategory = {
-  query: Joi.object().keys({
+  params: Joi.object().keys({
     categoryId: Joi.required().custom(objectId),
   }),
 };
