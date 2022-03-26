@@ -1,5 +1,5 @@
 class CommonResponse {
-  constructor(code, isSuccess, result, errorResponse) {
+  constructor(code, isSuccess, result, errorResponse = null) {
     this.code = code;
     this.isSuccess = isSuccess;
     this.result = result;

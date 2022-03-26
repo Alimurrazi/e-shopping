@@ -6,10 +6,8 @@ const categoryController = require('../../controllers/category.controller');
 
 const router = express.Router();
 
-router.route('/').get(auth('getCategory'), validate(categoryValidation.getCategories), categoryController.getCategories);
-router
-  .route('/:categoryId')
-  .get(auth('getCategory'), validate(categoryValidation.getCategory), categoryController.getCategoryById);
+router.route('/').get(validate(categoryValidation.getCategories), categoryController.getCategories);
+router.route('/:categoryId').get(validate(categoryValidation.getCategory), categoryController.getCategoryById);
 router
   .route('/')
   .post(auth('manageCategory'), validate(categoryValidation.createCategory), categoryController.createCategory);
@@ -31,7 +29,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /category/getCategories:
+ * /categories:
  *   get:
  *     summary: Get all categories
  *     description: people retrieve all categories.
@@ -83,7 +81,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /category/getCategory:
+ * /categories:
  *   get:
  *     summary: Get Specific category
  *     description: people retrieve specific category.
@@ -109,11 +107,13 @@ module.exports = router;
 
 /**
  * @swagger
- * /category/createCategory:
+ * /categories:
  *   post:
  *     summary: create category
  *     description: only admin can create category.
  *     tags: [Category]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -152,7 +152,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /category/updateCategory:
+ * /categories:
  *   patch:
  *     summary: update category
  *     description: only admin can update category.
@@ -208,8 +208,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /category/deleteCategory:
+ * /categories:
  *   delete:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Delete Specific category
  *     description: Delete specific category by categoryId.
  *     tags: [Category]
