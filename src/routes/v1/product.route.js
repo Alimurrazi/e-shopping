@@ -1,12 +1,12 @@
 const express = require('express');
+const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
+const productValidation = require('../../validations/product.validation');
+const { productController } = require('../../controllers');
+
 const router = express.Router();
 
-// router
-//   .route('/')
-//   .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-//   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
-
-router.route('/').get(':categoryId/products', validate(productValidation.getProducts), productController.getProducts);
+// router.route('/').get(':categoryId/products', validate(productValidation.getProducts), productController.getProducts);
+router.route('/').post(auth('manageProduct'), validate(productValidation.createProduct), productController.createProduct);
 
 module.exports = router;

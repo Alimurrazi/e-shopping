@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const categorySchema = mongoose.Schema(
+const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
       trim: true,
       unique: true,
+    },
+    categoryIds: {
+      type: [String],
+      required: true,
     },
     description: {
       type: String,
@@ -17,14 +21,17 @@ const categorySchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    price: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-// add plugin that converts mongoose to json
-categorySchema.plugin(toJSON);
-categorySchema.plugin(paginate);
-const Category = mongoose.model('Category', categorySchema);
-module.exports = Category;
+productSchema.plugin(toJSON);
+productSchema.plugin(paginate);
+const Product = mongoose.model('Product', productSchema);
+module.exports = Product;
