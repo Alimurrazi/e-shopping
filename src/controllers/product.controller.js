@@ -16,7 +16,13 @@ const getProducts = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(new CommonResponse(httpStatus.OK, true, result));
 });
 
+const updateProduct = catchAsync(async (req, res) => {
+  await productService.updateProductById(req.params.categoryId, req.body);
+  res.status(httpStatus.OK).send(new CommonResponse(httpStatus.OK, true, null));
+});
+
 module.exports = {
   createProduct,
   getProducts,
+  updateProduct,
 };
