@@ -17,7 +17,7 @@ const { tokenTypes } = require('../config/tokens');
  */
 const generateToken = (userId, expires, type, secret = config.jwt.secret) => {
   const payload = {
-    sub: userId,
+    userId,
     iat: moment().unix(),
     exp: expires.unix(),
     type,
@@ -53,7 +53,12 @@ const saveToken = async (token, userId, expires, type, blacklisted = false) => {
  */
 const verifyToken = async (token, type) => {
   const payload = jwt.verify(token, config.jwt.secret);
-  const tokenDoc = await Token.findOne({ token, type, user: payload.sub, blacklisted: false });
+  const tokenDoc = await Token.findOne({
+    token,
+    type,
+    user: payload.userId,
+    blacklisted: false,
+  });
   if (!tokenDoc) {
     throw new Error('Token not found');
   }
