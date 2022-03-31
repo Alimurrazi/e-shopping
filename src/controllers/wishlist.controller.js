@@ -1,15 +1,20 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const CommonResponse = require('../utils/CommonResponse');
-const { productService } = require('../services');
+const { wishlistService } = require('../services');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 
-const addWishlistProduct = catchAsync(async (req, res) => {
-  const category = await productService.createProduct(req.body);
-  res.status(httpStatus.CREATED).send(new CommonResponse(httpStatus.CREATED, true, category));
+const addToWishlist = catchAsync(async (req, res) => {
+  const loggedInUser = req.user;
+  if (loggedInUser.role === 'admin' || loggedInUser.id === req.body.userId) {
+    const wishlist = await wishlistService.addToWishlist(req.body);
+    res.status(httpStatus.CREATED).send(new CommonResponse(httpStatus.CREATED, true, wishlist));
+  } else {
+    res.status(httpStatus.FORBIDDEN).send(new CommonResponse(httpStatus.FORBIDDEN, false, null));
+  }
 });
 
 module.exports = {
-  addWishlistProduct,
+  addToWishlist,
 };
