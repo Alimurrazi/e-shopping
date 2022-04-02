@@ -11,6 +11,23 @@ const addToWishlist = async (body) => {
   return wishlist;
 };
 
+const removeFromWishlist = async (req) => {
+  const loggedInUser = req.user;
+  const { wishlistId } = req.params;
+  const wishlist = await Wishlist.findById(wishlistId);
+  if (!wishlist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Product not added in Wishlist');
+  }
+  if (loggedInUser.role !== 'admin') {
+    if (loggedInUser.id !== wishlist.userId) {
+      throw new ApiError(httpStatus.FORBIDDEN, null);
+    }
+  }
+  const response = await Wishlist.deleteOne({ _id: wishlistId });
+  return response;
+};
+
 module.exports = {
   addToWishlist,
+  removeFromWishlist,
 };

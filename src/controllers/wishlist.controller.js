@@ -15,6 +15,12 @@ const addToWishlist = catchAsync(async (req, res) => {
   }
 });
 
+const removeFromWishlist = catchAsync(async (req, res) => {
+  await wishlistService.removeFromWishlist(req);
+  res.status(httpStatus.OK).send(new CommonResponse(httpStatus.OK, true, null));
+});
+
 module.exports = {
   addToWishlist,
+  removeFromWishlist,
 };

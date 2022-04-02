@@ -7,5 +7,8 @@ const { wishlistController } = require('../../controllers');
 const router = express.Router();
 
 router.route('/').post(auth('wishlist'), validate(wishlistValidation.addToWishlist), wishlistController.addToWishlist);
+router
+  .route('/:wishlistId')
+  .delete(auth('wishlist'), validate(wishlistValidation.removeFromWishlist), wishlistController.removeFromWishlist);
 
 module.exports = router;

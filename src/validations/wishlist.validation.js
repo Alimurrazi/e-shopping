@@ -7,7 +7,13 @@ const addToWishlist = {
     productId: Joi.string().custom(objectId),
   }),
 };
+const removeFromWishlist = {
+  params: Joi.object().keys({
+    wishlistId: Joi.required().custom(objectId),
+  }),
+};
 
 module.exports = {
   addToWishlist,
+  removeFromWishlist,
 };
