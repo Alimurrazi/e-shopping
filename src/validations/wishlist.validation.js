@@ -12,8 +12,17 @@ const removeFromWishlist = {
     wishlistId: Joi.required().custom(objectId),
   }),
 };
+const getWishlist = {
+  query: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+};
 
 module.exports = {
   addToWishlist,
   removeFromWishlist,
+  getWishlist,
 };

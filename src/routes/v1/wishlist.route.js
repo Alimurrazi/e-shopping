@@ -10,5 +10,6 @@ router.route('/').post(auth('wishlist'), validate(wishlistValidation.addToWishli
 router
   .route('/:wishlistId')
   .delete(auth('wishlist'), validate(wishlistValidation.removeFromWishlist), wishlistController.removeFromWishlist);
+router.route('/').get(auth('wishlist'), validate(wishlistValidation.getWishlist), wishlistController.getWishlist);
 
 module.exports = router;

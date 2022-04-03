@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Wishlist } = require('../models');
+const { Wishlist, Product } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 const addToWishlist = async (body) => {
@@ -27,7 +27,15 @@ const removeFromWishlist = async (req) => {
   return response;
 };
 
+const queryWishlist = async (filter, options) => {
+  const wishlist = await Wishlist.paginate(filter, options);
+  const productIds = wishlist.results.map((wish) => wish.productId);
+  const products = await Product.find({ _id: { $in: productIds } }, ['name', 'img', 'price']);
+  return products;
+};
+
 module.exports = {
   addToWishlist,
   removeFromWishlist,
+  queryWishlist,
 };
