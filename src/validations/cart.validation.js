@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
-const cartUpsert = {
+const cartUpdate = {
   body: Joi.object().keys({
     userId: Joi.required().custom(objectId),
     products: Joi.array().items({
@@ -11,6 +11,13 @@ const cartUpsert = {
   }),
 };
 
+const getCart = {
+  query: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
+  }),
+};
+
 module.exports = {
-  cartUpsert,
+  cartUpdate,
+  getCart,
 };
