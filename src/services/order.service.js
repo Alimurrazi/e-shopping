@@ -1,44 +1,34 @@
 const httpStatus = require('http-status');
-const { Cart, Product } = require('../models');
+const { Order } = require('../models');
 const ApiError = require('../utils/ApiError');
 
-const getTotalPriceOfProducts = (products, productsWithAmount) => {
-  let total = 0;
-  productsWithAmount.forEach((productWithAmount) => {
-    const selected = products.find((product) => product.id === productWithAmount.productId);
-    total += selected.price * productWithAmount.amount;
-  });
-
-  return total;
+const getOrderDetails = async (req) => {
+  const loggedInUser = req.user;
+  const { orderId } = req.params;
+  const order = await Order.findById(orderId);
+  if (!order) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Order not Placed');
+  }
+  if (loggedInUser.role !== 'admin') {
+    if (loggedInUser.id !== order.userId) {
+      throw new ApiError(httpStatus.FORBIDDEN, null);
+    }
+  }
+  return order;
 };
 
-const getCart = async (userId) => {
-  let cart = await Cart.findOne({ userId });
-  if (cart === null) {
-    const newCart = {
-      userId,
-      products: [],
-      totalPrice: 0,
-    };
-    cart = await Cart.create(newCart);
-  }
-  return cart;
+const placeOrder = async (body) => {
+  const order = await Order.create(body);
+  return order;
 };
 
-const cartUpdate = async (body) => {
-  const cart = await Cart.findOne({ userId: body.userId });
-  if (cart === null) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-  Object.assign(cart, body);
-  const productIds = body.products.map((product) => product.productId);
-  const prodcuts = await Product.find({ _id: { $in: productIds } });
-  cart.totalPrice = getTotalPriceOfProducts(prodcuts, body.products);
-  const updatedCart = await cart.save();
-  return updatedCart;
+const getOrders = async (filter, options) => {
+  const orders = await Order.paginate(filter, options);
+  return orders;
 };
 
 module.exports = {
-  cartUpdate,
-  getCart,
+  placeOrder,
+  getOrders,
+  getOrderDetails,
 };

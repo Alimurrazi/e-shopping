@@ -20,13 +20,20 @@ const placeOrder = {
   }),
 };
 
-const getCart = {
+const getOrders = {
   query: Joi.object().keys({
     userId: Joi.required().custom(objectId),
   }),
 };
 
+const getOrderDeatils = {
+  query: Joi.object().keys({
+    orderId: Joi.required().custom(objectId),
+  }),
+};
+
 module.exports = {
   placeOrder,
-  getCart,
+  getOrders,
+  getOrderDeatils,
 };
