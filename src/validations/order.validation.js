@@ -4,17 +4,17 @@ const { objectId } = require('./custom.validation');
 const placeOrder = {
   body: Joi.object().keys({
     userId: Joi.custom(objectId),
-    total: Joi.required().number().integer().required(),
+    total: Joi.number().integer().required(),
     address: Joi.object().keys({
-      district: Joi.required().string(),
-      upzila: Joi.required().string(),
-      fullAddress: Joi.required().string(),
+      district: Joi.string().required(),
+      upzila: Joi.string().required(),
+      fullAddress: Joi.string().required(),
     }),
     products: Joi.array().items({
       productId: Joi.required().custom(objectId),
-      name: Joi.required().string(),
-      price: Joi.required().string(),
-      img: Joi.required().string(),
+      name: Joi.string().required(),
+      price: Joi.string().required(),
+      img: Joi.string().required(),
       amount: Joi.number().integer().required(),
     }),
   }),
