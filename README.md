@@ -207,11 +207,42 @@ List of available routes:
 `POST /v1/auth/verify-email` - verify email
 
 **User routes**:\
-`POST /v1/users` - create a user\
-`GET /v1/users` - get all users\
+`POST /v1/users/createuser` - create a user\
+`GET /v1/users/getusers` - get all users\
 `GET /v1/users/:userId` - get user\
 `PATCH /v1/users/:userId` - update user\
 `DELETE /v1/users/:userId` - delete user
+
+**Category routes**:\
+`GET /v1/categories` - get all categories\
+`POST /v1/categories` - create new category\
+`GET /v1/categories/:categoryId` - get category\
+`PATCH /v1/categories/:categoryId` - update category\
+`DELETE /v1/categories/:categoryId` - delete category
+
+**Product routes**:\
+`GET /v1/products` - get all products\
+`POST /v1/products` - create new product\
+`GET /v1/products/:productId` - get product\
+`PATCH /v1/products/:productId` - update product\
+`DELETE /v1/products/:productId` - delete product
+
+**Wishlist routes**:\
+`GET /v1/wishlist` - get wishlist\
+`POST /v1/wishlist` - add product to wishlist\
+`DELETE /v1/wishlist/:wishlistId` - remove product from wishlist
+
+**Cart routes**:\
+`GET /v1/cart` - get cart\
+`POST /v1/cart` - update cart
+
+**Order routes**:\
+`POST /v1/order` - Place new order\
+`GET /v1/order/userid/:userId` - Get orders of a user\
+`GET /v1/order/:orderId` - Get order
+
+**File routes**:\
+`POST /v1/file` - Upload file
 
 ## Error Handling
 
